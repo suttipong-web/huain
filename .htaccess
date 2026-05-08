@@ -1,0 +1,31 @@
+RewriteEngine On
+
+# Redirect legacy URLs to new SEO-friendly routes
+RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+products\.php[\s?] [NC]
+RewriteRule ^products\.php$ /products [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+news\.php[\s?] [NC]
+RewriteRule ^news\.php$ /news [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+contact\.php[\s?] [NC]
+RewriteRule ^contact\.php$ /contact [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+product\.php\?slug=([^\s&]+) [NC]
+RewriteRule ^product\.php$ /products/%1? [R=301,L]
+
+RewriteCond %{THE_REQUEST} \s/+news-detail\.php\?slug=([^\s&]+) [NC]
+RewriteRule ^news-detail\.php$ /news/%1? [R=301,L]
+
+# Pretty routes
+RewriteRule ^$ index.php [L,QSA]
+RewriteRule ^products/?$ products.php [L,QSA]
+RewriteRule ^products/([A-Za-z0-9-]+)/?$ product.php?slug=$1 [L,QSA]
+RewriteRule ^news/?$ news.php [L,QSA]
+RewriteRule ^news/([A-Za-z0-9-]+)/?$ news-detail.php?slug=$1 [L,QSA]
+RewriteRule ^contact/?$ contact.php [L,QSA]
+
+# Admin shortcut
+RewriteRule ^admin/?$ admin/login.php [L,QSA]

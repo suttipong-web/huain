@@ -1,0 +1,246 @@
+-- HUAIN Thailand schema + seed
+-- Database: huain
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS product_images;
+DROP TABLE IF EXISTS contact_messages;
+DROP TABLE IF EXISTS contact_information;
+DROP TABLE IF EXISTS news;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS product_categories;
+DROP TABLE IF EXISTS banners;
+DROP TABLE IF EXISTS admins;
+
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) UNIQUE,
+    password VARCHAR(255),
+    name VARCHAR(255),
+    role VARCHAR(50) DEFAULT 'admin',
+    status TINYINT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE banners (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title_en VARCHAR(255),
+    title_th VARCHAR(255),
+    subtitle_en TEXT,
+    subtitle_th TEXT,
+    image VARCHAR(255),
+    link_url VARCHAR(255),
+    sort_order INT DEFAULT 0,
+    status TINYINT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE product_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name_th VARCHAR(255),
+    name_en VARCHAR(255),
+    slug VARCHAR(255),
+    status TINYINT DEFAULT 1
+);
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT,
+    name_th VARCHAR(255),
+    name_en VARCHAR(255),
+    slug VARCHAR(255),
+    short_desc_th TEXT,
+    short_desc_en TEXT,
+    description_th LONGTEXT,
+    description_en LONGTEXT,
+    specification_th LONGTEXT,
+    specification_en LONGTEXT,
+    price DECIMAL(12,2) DEFAULT 0,
+    image VARCHAR(255),
+    pdf_th VARCHAR(255),
+    pdf_en VARCHAR(255),
+    featured TINYINT DEFAULT 0,
+    status TINYINT DEFAULT 1,
+    seo_title VARCHAR(255),
+    seo_description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES product_categories(id)
+);
+
+CREATE TABLE product_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    image VARCHAR(255),
+    sort_order INT DEFAULT 0,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE news (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title_th VARCHAR(255),
+    title_en VARCHAR(255),
+    slug VARCHAR(255),
+    short_desc_th TEXT,
+    short_desc_en TEXT,
+    description_th LONGTEXT,
+    description_en LONGTEXT,
+    image VARCHAR(255),
+    seo_title VARCHAR(255),
+    seo_description TEXT,
+    status TINYINT DEFAULT 1,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE contact_information (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    company_name VARCHAR(255),
+    address TEXT,
+    phone VARCHAR(100),
+    email VARCHAR(255),
+    line_id VARCHAR(100),
+    google_map TEXT,
+    facebook VARCHAR(255),
+    youtube VARCHAR(255)
+);
+
+CREATE TABLE contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    phone VARCHAR(100),
+    subject VARCHAR(255),
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO admins (username, password, name, role, status)
+VALUES ('admin', '$2y$10$aHCL3Sr0Fdc3QyIFWBETROtSoerJD6/7g15GKrxN25Dsx7AHguLC.', 'HUAIN Administrator', 'admin', 1);
+
+INSERT INTO product_categories (name_th, name_en, slug, status) VALUES
+('แมทริกซ์และสวิตช์', 'Matrix and Switchers', 'matrix-and-switchers', 1),
+('AV over IP', 'AV over IP', 'av-over-ip', 1),
+('Signal Extension', 'Signal Extension', 'signal-extension', 1),
+('Control Systems', 'Control Systems', 'control-systems', 1);
+
+INSERT INTO banners (title_en, title_th, subtitle_en, subtitle_th, image, link_url, sort_order, status) VALUES
+('Professional AV Solutions', 'โซลูชัน AV ระดับมืออาชีพ', 'High reliability systems for enterprise projects in Thailand.', 'ระบบที่มีความเสถียรสูงสำหรับงานองค์กรในประเทศไทย', '', 'products.php', 1, 1),
+('HDMI Matrix Flagship Series', 'ซีรีส์ HDMI Matrix รุ่นหลัก', 'Scalable matrix switching for mission critical spaces.', 'รองรับการขยายระบบสำหรับพื้นที่สำคัญ', '', 'product.php?slug=hdmi-matrix', 2, 1),
+('HUAIN Power Squeezer', 'HUAIN Power Squeezer', 'Smart power and signal optimization platform.', 'แพลตฟอร์มจัดการพลังงานและสัญญาณอัจฉริยะ', '', 'product.php?slug=huain-power-squeezer', 3, 1);
+
+INSERT INTO products (
+    category_id, name_th, name_en, slug,
+    short_desc_th, short_desc_en,
+    description_th, description_en,
+    specification_th, specification_en,
+    price, image, pdf_th, pdf_en, featured, status,
+    seo_title, seo_description
+) VALUES
+(
+    1, 'HDMI Matrix', 'HDMI Matrix', 'hdmi-matrix',
+    'ระบบสวิตช์สัญญาณ HDMI สำหรับงานประชุมและงานองค์กร',
+    'Enterprise HDMI matrix switching platform for meetings and control environments.',
+    'รองรับการจัดการสัญญาณหลายอินพุตและหลายเอาต์พุต พร้อมการควบคุมผ่าน LAN และ RS232.',
+    'Supports multi-input multi-output signal routing with LAN and RS232 control integration.',
+    '4K60, HDCP compliant, EDID management, IR pass-through.',
+    '4K60, HDCP compliant, EDID management, IR pass-through.',
+    98000.00, '', 'HDMIMatrixcatalog.pdf', 'HDMIMatrixcatalog.pdf', 1, 1,
+    'HDMI Matrix | HUAIN Thailand', 'Professional HDMI Matrix catalog and product details.'
+),
+(
+    4, 'HUAIN Power Squeezer', 'HUAIN Power Squeezer', 'huain-power-squeezer',
+    'ระบบจัดการพลังงานและสัญญาณอัจฉริยะ',
+    'Intelligent power and signal optimization for critical AV racks.',
+    'ออกแบบเพื่อช่วยลดการใช้พลังงานและเสริมความเสถียรของระบบ AV.',
+    'Designed to reduce energy consumption and improve AV infrastructure stability.',
+    'Remote scheduling, surge protection, power analytics.',
+    'Remote scheduling, surge protection, power analytics.',
+    125000.00, '', '', '', 1, 1,
+    'Power Squeezer | HUAIN Thailand', 'Power optimization product for AV infrastructure.'
+),
+(
+    2, 'AV Over IP', 'AV Over IP', 'av-over-ip',
+    'ระบบกระจายสัญญาณภาพและเสียงผ่านเครือข่าย',
+    'Scalable AV distribution over managed network infrastructure.',
+    'ขยายระบบได้ง่ายและรองรับงานหลายจุดแสดงผล.',
+    'Highly scalable architecture for enterprise multi-display projects.',
+    '1Gb/10Gb support, multicast-ready, central management.',
+    '1Gb/10Gb support, multicast-ready, central management.',
+    145000.00, '', '', '', 1, 1,
+    'AV Over IP | HUAIN Thailand', 'Enterprise AV over IP product family.'
+),
+(
+    3, 'HDMI Extender', 'HDMI Extender', 'hdmi-extender',
+    'ส่งสัญญาณ HDMI ระยะไกลแบบเสถียร',
+    'Long-distance HDMI signal extension with stable quality.',
+    'เหมาะสำหรับห้องประชุมและงานติดตั้งที่ต้องเดินสายไกล.',
+    'Ideal for meeting room and long-cable AV installation scenarios.',
+    'Up to 100m extension, low latency transport.',
+    'Up to 100m extension, low latency transport.',
+    39000.00, '', '', '', 0, 1,
+    'HDMI Extender | HUAIN Thailand', 'Reliable HDMI extension solutions.'
+),
+(
+    4, 'Video Wall Controller', 'Video Wall Controller', 'video-wall-controller',
+    'ควบคุมผนังภาพหลายจอสำหรับศูนย์ควบคุม',
+    'Multi-display video wall control system for command center operation.',
+    'รองรับการจัด layout และ preset สำหรับงานเฝ้าระวังแบบเรียลไทม์.',
+    'Supports layout presets and real-time monitoring workflows.',
+    'Flexible layouts, low-latency output, failover ready.',
+    'Flexible layouts, low-latency output, failover ready.',
+    210000.00, '', '', '', 0, 1,
+    'Video Wall Controller | HUAIN Thailand', 'Video wall management platform.'
+),
+(
+    1, 'HDMI Splitter', 'HDMI Splitter', 'hdmi-splitter',
+    'กระจายสัญญาณ HDMI หลายจอ',
+    'Professional HDMI signal distribution to multiple displays.',
+    'เหมาะสำหรับงานโชว์รูม ห้องประชุม และ signage.',
+    'Ideal for showrooms, meeting spaces, and digital signage systems.',
+    '1x4 / 1x8 output options, signal equalization, reliable sync.',
+    '1x4 / 1x8 output options, signal equalization, reliable sync.',
+    22000.00, '', '', '', 0, 1,
+    'HDMI Splitter | HUAIN Thailand', 'Signal distribution products from HUAIN.'
+);
+
+INSERT INTO news (title_th, title_en, slug, short_desc_th, short_desc_en, description_th, description_en, image, seo_title, seo_description, status) VALUES
+(
+    'โครงการห้องประชุมองค์กร กรุงเทพฯ',
+    'Bangkok Enterprise Conference Room',
+    'bangkok-enterprise-conference-room',
+    'ติดตั้งระบบควบคุมสัญญาณ HDMI Matrix และระบบเสียงครบวงจร',
+    'Installed complete HDMI matrix and integrated audio visual workflow.',
+    'โครงการออกแบบและติดตั้งระบบ AV สำหรับห้องประชุมหลักขององค์กรในกรุงเทพฯ พร้อมระบบควบคุมส่วนกลาง.',
+    'Designed and deployed complete AV solution for the main conference floor with centralized control.',
+    '', 'Bangkok Enterprise Conference Room', 'HUAIN project showcase in Thailand.', 1
+),
+(
+    'โครงการ Video Wall โรงแรม',
+    'Hotel Video Wall Deployment',
+    'hotel-video-wall-deployment',
+    'ยกระดับพื้นที่ lobby ด้วย video wall ความละเอียดสูง',
+    'Premium high-resolution video wall for hotel lobby engagement.',
+    'ติดตั้งระบบ video wall พร้อม player และ scheduling สำหรับงาน hospitality.',
+    'Installed a full video wall stack with content scheduling for hospitality operation.',
+    '', 'Hotel Video Wall Deployment', 'Hotel project and deployment result.', 1
+),
+(
+    'โครงการ Smart Classroom',
+    'Smart Classroom Upgrade',
+    'smart-classroom-upgrade',
+    'ระบบการเรียนรู้แบบ interactive สำหรับสถาบันการศึกษา',
+    'Interactive learning AV environment for education institutions.',
+    'ติดตั้งระบบแสดงผลและจัดการสัญญาณในห้องเรียนอัจฉริยะเพื่อรองรับการเรียนการสอนรูปแบบใหม่.',
+    'Installed display and signal management systems for modern smart learning classrooms.',
+    '', 'Smart Classroom Upgrade', 'Education AV case study by HUAIN Thailand.', 1
+);
+
+INSERT INTO contact_information (company_name, address, phone, email, line_id, google_map, facebook, youtube) VALUES
+('HUAIN Thailand', 'Bangkok, Thailand', '+66 2 000 0000', 'sales@huain-th.com', '@huainth', '', 'https://facebook.com', 'https://youtube.com');
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Default admin account
+-- URL: /admin/login.php
+-- Username: admin
+-- Password: Admin@123
