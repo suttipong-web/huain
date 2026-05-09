@@ -118,6 +118,121 @@ function truncateText($text, $length = 130)
     return mb_substr($text, 0, $length - 3) . '...';
 }
 
+function sanitizeRichText($html)
+{
+    $html = trim((string) $html);
+    if ($html === '') {
+        return '';
+    }
+
+    if (!class_exists('DOMDocument')) {
+        return strip_tags($html, '<p><br><strong><b><em><i><u><h1><h2><h3><h4><h5><h6><ul><ol><li><table><thead><tbody><tfoot><tr><th><td><a>');
+    }
+
+    $allowedTags = [
+        'p', 'br', 'strong', 'b', 'em', 'i', 'u',
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'ul', 'ol', 'li',
+        'table', 'thead', 'tbody', 'tfoot', 'tr', 'th', 'td',
+        'a',
+    ];
+    $allowedAttributes = [
+        'a' => ['href', 'target', 'rel'],
+        'th' => ['colspan', 'rowspan'],
+        'td' => ['colspan', 'rowspan'],
+    ];
+
+    $document = new DOMDocument();
+    libxml_use_internal_errors(true);
+    $document->loadHTML('<?xml encoding="utf-8" ?><div>' . $html . '</div>', LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+    libxml_clear_errors();
+
+    $root = $document->documentElement;
+    if (!$root) {
+        return '';
+    }
+
+    $sanitizeNode = static function ($node) use (&$sanitizeNode, $document, $allowedTags, $allowedAttributes) {
+        if ($node->nodeType === XML_ELEMENT_NODE) {
+            $tagName = strtolower($node->nodeName);
+            if (!in_array($tagName, $allowedTags, true)) {
+                $fragment = $document->createDocumentFragment();
+                while ($node->firstChild) {
+                    $child = $node->removeChild($node->firstChild);
+                    $fragment->appendChild($child);
+                }
+
+                if ($node->parentNode) {
+                    $node->parentNode->replaceChild($fragment, $node);
+                }
+
+                return;
+            }
+
+            if ($node->hasAttributes()) {
+                $attributesToRemove = [];
+                foreach ($node->attributes as $attribute) {
+                    $attributeName = strtolower($attribute->nodeName);
+                    $isAllowed = in_array($attributeName, $allowedAttributes[$tagName] ?? [], true);
+                    if (!$isAllowed) {
+                        $attributesToRemove[] = $attributeName;
+                        continue;
+                    }
+
+                    if ($tagName === 'a' && $attributeName === 'href') {
+                        $href = trim($attribute->nodeValue);
+                        if ($href !== '' && !preg_match('/^(https?:|mailto:|tel:|\/|#)/i', $href)) {
+                            $attributesToRemove[] = $attributeName;
+                        }
+                    }
+                }
+
+                foreach ($attributesToRemove as $attributeName) {
+                    $node->removeAttribute($attributeName);
+                }
+            }
+
+            if ($tagName === 'a') {
+                $href = trim($node->getAttribute('href'));
+                if ($href !== '' && preg_match('/^https?:\/\//i', $href)) {
+                    $node->setAttribute('target', '_blank');
+                    $node->setAttribute('rel', 'noopener');
+                } else {
+                    $node->removeAttribute('target');
+                    $node->removeAttribute('rel');
+                }
+            }
+        }
+
+        for ($child = $node->firstChild; $child !== null; $child = $child->nextSibling) {
+            $sanitizeNode($child);
+        }
+    };
+
+    $sanitizeNode($root);
+
+    $output = '';
+    foreach ($root->childNodes as $child) {
+        $output .= $document->saveHTML($child);
+    }
+
+    return trim($output);
+}
+
+function renderRichText($html)
+{
+    $html = trim((string) $html);
+    if ($html === '') {
+        return '';
+    }
+
+    if (strip_tags($html) === $html) {
+        return nl2br(e($html));
+    }
+
+    return sanitizeRichText($html);
+}
+
 function saveUpload($fieldName, array $allowedExtensions, $maxSize = 5242880)
 {
     if (empty($_FILES[$fieldName]) || $_FILES[$fieldName]['error'] === UPLOAD_ERR_NO_FILE) {

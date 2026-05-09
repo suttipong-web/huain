@@ -4,17 +4,64 @@
         new Swiper('.hero-swiper', {
             loop: true,
             effect: 'fade',
-            speed: 850,
+            speed: 1200,
+            fadeEffect: {
+                crossFade: true,
+            },
             autoplay: {
-                delay: 5000,
+                delay: 5600,
                 disableOnInteraction: false,
             },
+            allowTouchMove: true,
             pagination: {
                 el: '.swiper-pagination',
                 clickable: true,
             },
+            on: {
+                init(swiper) {
+                    const activeSlide = swiper.slides[swiper.activeIndex];
+                    if (activeSlide) {
+                        activeSlide.classList.add('is-animated');
+                    }
+                },
+                slideChangeTransitionStart(swiper) {
+                    swiper.slides.forEach((slide) => slide.classList.remove('is-animated'));
+                },
+                slideChangeTransitionEnd(swiper) {
+                    const activeSlide = swiper.slides[swiper.activeIndex];
+                    if (activeSlide) {
+                        activeSlide.classList.add('is-animated');
+                    }
+                },
+            },
         });
     }
+})();
+
+(() => {
+    const revealItems = document.querySelectorAll('.reveal-up');
+    if (revealItems.length === 0) {
+        return;
+    }
+
+    const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        },
+        {
+            threshold: 0.16,
+            rootMargin: '0px 0px -8% 0px',
+        }
+    );
+
+    revealItems.forEach((item) => revealObserver.observe(item));
 })();
 
 (() => {
