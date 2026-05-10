@@ -42,27 +42,27 @@ function appPath($path = '')
 
 function productsUrl()
 {
-    return baseUrl('products');
+    return baseUrl('products.php');
 }
 
 function productUrl($slug)
 {
-    return baseUrl('products/' . rawurlencode((string) $slug));
+    return baseUrl('product.php?slug=' . rawurlencode((string) $slug));
 }
 
 function newsListUrl()
 {
-    return baseUrl('news');
+    return baseUrl('news.php');
 }
 
 function newsUrl($slug)
 {
-    return baseUrl('news/' . rawurlencode((string) $slug));
+    return baseUrl('news-detail.php?slug=' . rawurlencode((string) $slug));
 }
 
 function contactUrl()
 {
-    return baseUrl('contact');
+    return baseUrl('contact.php');
 }
 
 function uploadUrl($fileName = '')
