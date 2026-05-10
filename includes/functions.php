@@ -47,7 +47,8 @@ function productsUrl()
 
 function productUrl($slug)
 {
-    return baseUrl('product.php?slug=' . rawurlencode((string) $slug));
+    // Use `s` to avoid clients stuck with previously cached 301 redirects for `slug`.
+    return baseUrl('product.php?s=' . rawurlencode((string) $slug));
 }
 
 function newsListUrl()
@@ -325,8 +326,20 @@ function normalizeInternalLink($value)
         return productUrl(urldecode($matches[2]));
     }
 
+    if (preg_match('/^(product\.php\?s=)([^&]+)$/i', $value, $matches)) {
+        return productUrl(urldecode($matches[2]));
+    }
+
     if (preg_match('/^(news-detail\.php\?slug=)([^&]+)$/i', $value, $matches)) {
         return newsUrl(urldecode($matches[2]));
+    }
+
+    if (preg_match('#^products/([^/?#]+)$#i', $value, $matches)) {
+        return productUrl(urldecode($matches[1]));
+    }
+
+    if (preg_match('#^news/([^/?#]+)$#i', $value, $matches)) {
+        return newsUrl(urldecode($matches[1]));
     }
 
     if ($value === 'products.php' || $value === 'products') {

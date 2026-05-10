@@ -12,7 +12,9 @@ if (isAdminLoggedIn()) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Login | HUAIN Thailand</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="icon" type="image/svg+xml" href="<?= e(baseUrl('favicon.svg')) ?>">
+    <link rel="icon" type="image/x-icon" href="<?= e(baseUrl('favicon.ico')) ?>">
+    <link rel="stylesheet" href="<?= e(baseUrl('assets/css/admin.css')) ?>">
 </head>
 <body>
 <div class="login-wrap">
@@ -33,7 +35,7 @@ if (isAdminLoggedIn()) {
                 <input type="password" name="password" required>
             </div>
             <button class="btn btn-primary" type="submit">Login</button>
-            <a class="btn btn-muted" href="../index.php">Back to site</a>
+            <a class="btn btn-muted" href="<?= e(baseUrl('index.php')) ?>">Back to site</a>
         </form>
     </div>
 </div>

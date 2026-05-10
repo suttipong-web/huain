@@ -26,6 +26,9 @@ $ogType = $ogType ?? 'website';
     <meta name="twitter:title" content="<?= e($siteTitle) ?>">
     <meta name="twitter:description" content="<?= e($metaDescription) ?>">
     <meta name="twitter:image" content="<?= e($metaImage) ?>">
+    <link rel="icon" type="image/svg+xml" href="<?= e(baseUrl('favicon.svg')) ?>">
+    <link rel="icon" type="image/x-icon" href="<?= e(baseUrl('favicon.ico')) ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= e(baseUrl('favicon-180x180.png')) ?>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">

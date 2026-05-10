@@ -215,16 +215,16 @@ include __DIR__ . '/partials/header.php';
     </div>
 </div>
 
-<link rel="stylesheet" href="../assets/css/quill.snow.css">
-<link rel="stylesheet" href="../assets/css/quill-better-table.min.css">
+<link rel="stylesheet" href="<?= e(baseUrl('assets/css/quill.snow.css')) ?>">
+<link rel="stylesheet" href="<?= e(baseUrl('assets/css/quill-better-table.min.css')) ?>">
 <style>
 .quill-editor {
     min-height: 320px;
     margin-bottom: 0.5rem;
 }
 </style>
-<script src="../assets/js/quill.min.js"></script>
-<script src="../assets/js/quill-better-table.min.js"></script>
+<script src="<?= e(baseUrl('assets/js/quill.min.js')) ?>"></script>
+<script src="<?= e(baseUrl('assets/js/quill-better-table.min.js')) ?>"></script>
 <script>
 (() => {
     const formPanel = document.getElementById('form-panel');

@@ -5,7 +5,7 @@ $lang = currentLang();
 $isTh = $lang === 'th';
 $pageKey = 'products';
 
-$slug = trim($_GET['slug'] ?? '');
+$slug = trim($_GET['slug'] ?? ($_GET['s'] ?? ''));
 if ($slug === '') {
     header('Location: ' . productsUrl());
     exit;

@@ -7,7 +7,9 @@ $adminPage = $adminPage ?? 'dashboard';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | HUAIN Thailand</title>
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="icon" type="image/svg+xml" href="<?= e(baseUrl('favicon.svg')) ?>">
+    <link rel="icon" type="image/x-icon" href="<?= e(baseUrl('favicon.ico')) ?>">
+    <link rel="stylesheet" href="<?= e(baseUrl('assets/css/admin.css')) ?>">
 </head>
 <body>
 <div class="admin-shell">

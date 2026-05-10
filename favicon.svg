@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">HUAIN H Signal Favicon</title>
+  <desc id="desc">Orange letter H with wifi-like signal arcs above.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fff7f0"/>
+      <stop offset="100%" stop-color="#ffe5d1"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8a2b"/>
+      <stop offset="100%" stop-color="#e46000"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)"/>
+
+  <path d="M18 46V21h8v9h12v-9h8v25h-8V37H26v9h-8z" fill="url(#accent)"/>
+
+  <circle cx="32" cy="13" r="1.9" fill="#e46000"/>
+  <path d="M25.8 14.8a9 9 0 0 1 12.4 0" fill="none" stroke="#ff8a2b" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M22.3 12.2a14 14 0 0 1 19.4 0" fill="none" stroke="#e46000" stroke-width="2.2" stroke-linecap="round" opacity="0.95"/>
+
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="none" stroke="#f7a262" stroke-width="1"/>
+</svg>

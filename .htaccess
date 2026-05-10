@@ -2,24 +2,7 @@ RewriteEngine On
 
 # Keep redirects relative to current app directory (works at root and subfolder installs)
 
-# Redirect legacy URLs to new SEO-friendly routes
-RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
-RewriteRule ^index\.php$ ./ [R=301,L]
-
-RewriteCond %{THE_REQUEST} \s/+products\.php[\s?] [NC]
-RewriteRule ^products\.php$ products [R=301,L]
-
-RewriteCond %{THE_REQUEST} \s/+news\.php[\s?] [NC]
-RewriteRule ^news\.php$ news [R=301,L]
-
-RewriteCond %{THE_REQUEST} \s/+contact\.php[\s?] [NC]
-RewriteRule ^contact\.php$ contact [R=301,L]
-
-RewriteCond %{THE_REQUEST} \s/+product\.php\?slug=([^\s&]+) [NC]
-RewriteRule ^product\.php$ products/%1? [R=301,L]
-
-RewriteCond %{THE_REQUEST} \s/+news-detail\.php\?slug=([^\s&]+) [NC]
-RewriteRule ^news-detail\.php$ news/%1? [R=301,L]
+# Keep legacy query URLs as-is to avoid host-specific redirect issues.
 
 # Pretty routes
 RewriteRule ^$ index.php [L,QSA]
