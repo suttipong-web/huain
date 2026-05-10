@@ -395,7 +395,7 @@ include __DIR__ . '/partials/header.php';
                     <td>
                         <div class="action-group">
                         <a class="btn btn-muted edit-product-btn" href="products.php?edit=<?= (int) $row['id'] ?>" data-edit-id="<?= (int) $row['id'] ?>">Edit</a>
-                        <form method="post" style="display:inline;" onsubmit="return confirm('Delete this product?');">
+                        <form method="post" style="display:inline;" class="delete-product-form" data-product-name="<?= e($row['name_en']) ?>">
                             <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
@@ -538,6 +538,23 @@ include __DIR__ . '/partials/header.php';
             const editId = e.target.dataset.editId;
             // Navigate to edit mode
             window.location.href = 'products.php?edit=' + editId;
+        }
+    });
+
+    // Confirm product deletion before submit
+    document.addEventListener('submit', (e) => {
+        const deleteForm = e.target.closest('.delete-product-form');
+        if (!deleteForm) {
+            return;
+        }
+
+        const productName = (deleteForm.dataset.productName || '').trim();
+        const message = productName
+            ? 'Delete product "' + productName + '"?'
+            : 'Delete this product?';
+
+        if (!window.confirm(message)) {
+            e.preventDefault();
         }
     });
     

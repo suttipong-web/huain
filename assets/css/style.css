@@ -760,6 +760,54 @@ a {
     max-width: 56ch;
 }
 
+.product-filter-menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-bottom: 1.4rem;
+}
+
+.product-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgba(244, 124, 32, 0.25);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.product-filter-chip:hover {
+    border-color: rgba(244, 124, 32, 0.5);
+    background: #fff5ec;
+    color: var(--orange-dark);
+    transform: translateY(-1px);
+}
+
+.product-filter-chip.active {
+    border-color: var(--orange);
+    background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+    color: var(--white);
+}
+
+@media (max-width: 576px) {
+    .product-filter-menu {
+        gap: 0.45rem;
+    }
+
+    .product-filter-chip {
+        font-size: 0.76rem;
+        padding: 0.42rem 0.8rem;
+    }
+}
+
 .card-premium {
     background: linear-gradient(180deg, #ffffff 0%, #fff9f4 100%);
     border: 1px solid rgba(244, 124, 32, 0.14);

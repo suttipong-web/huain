@@ -333,8 +333,8 @@ include __DIR__ . '/includes/site-header.php';
                             </div>
                             <div class="contact-text">
                                 <div class="contact-label">Line</div>
-                                <a href="<?= e($contactInfo['line'] ? 'https://line.me/ti/p/' . urlencode($contactInfo['line']) : '#') ?>" class="contact-value" <?= !isset($contactInfo['line']) || !$contactInfo['line'] ? 'style="cursor: default; opacity: 0.6;"' : '' ?>>
-                                    <?= e($contactInfo['line'] ?? 'huain.thailand') ?>
+                                <a href="<?= e($contactInfo['line_id'] ? 'https://line.me/ti/p/' . urlencode($contactInfo['line_id']) : '#') ?>" class="contact-value" <?= !isset($contactInfo['line_id']) || !$contactInfo['line_id'] ? 'style="cursor: default; opacity: 0.6;"' : '' ?>>
+                                    <?= e($contactInfo['line_id'] ?? 'huain.thailand') ?>
                                 </a>
                             </div>
                         </div>

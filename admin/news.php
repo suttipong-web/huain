@@ -36,8 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $shortTh = trim($_POST['short_desc_th'] ?? '');
     $shortEn = trim($_POST['short_desc_en'] ?? '');
-    $descTh = trim($_POST['description_th'] ?? '');
-    $descEn = trim($_POST['description_en'] ?? '');
+    $descTh = sanitizeRichText($_POST['description_th'] ?? '');
+    $descEn = sanitizeRichText($_POST['description_en'] ?? '');
 
     $seoTitle = trim($_POST['seo_title'] ?? '');
     $seoDescription = trim($_POST['seo_description'] ?? '');
@@ -81,14 +81,20 @@ if ($editId > 0) {
 include __DIR__ . '/partials/header.php';
 ?>
 
-<div class="panel">
-    <h2><?= $editing ? 'Edit News' : 'Add News' ?></h2>
+<div id="form-panel" class="panel" style="<?= $editing ? '' : 'display:none;' ?>">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+        <h2><?= $editing ? 'Edit News' : 'Add News' ?></h2>
+        <button type="button" id="close-form-btn" class="btn btn-muted">Close</button>
+    </div>
 
     <?php if (!empty($_GET['success'])): ?>
         <div class="alert alert-success">Saved successfully.</div>
     <?php endif; ?>
+    <?php if (!empty($_GET['error'])): ?>
+        <div class="alert alert-error">Request validation failed.</div>
+    <?php endif; ?>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="news-form">
         <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
         <input type="hidden" name="id" value="<?= (int) ($editing['id'] ?? 0) ?>">
 
@@ -122,11 +128,13 @@ include __DIR__ . '/partials/header.php';
             </div>
             <div>
                 <label>Description TH</label>
-                <textarea name="description_th"><?= e($editing['description_th'] ?? '') ?></textarea>
+                <textarea id="description_th" name="description_th" class="quill-source" style="display:none;"><?= e($editing['description_th'] ?? '') ?></textarea>
+                <div id="quill-editor-th" class="quill-editor"></div>
             </div>
             <div>
                 <label>Description EN</label>
-                <textarea name="description_en"><?= e($editing['description_en'] ?? '') ?></textarea>
+                <textarea id="description_en" name="description_en" class="quill-source" style="display:none;"><?= e($editing['description_en'] ?? '') ?></textarea>
+                <div id="quill-editor-en" class="quill-editor"></div>
             </div>
             <div>
                 <label>SEO Title</label>
@@ -150,17 +158,21 @@ include __DIR__ . '/partials/header.php';
 
         <div style="margin-top:0.8rem;">
             <button class="btn btn-primary" type="submit">Save News</button>
-            <?php if ($editing): ?>
-                <a class="btn btn-muted" href="news.php">Cancel</a>
-            <?php endif; ?>
+            <button type="button" class="btn btn-muted" id="close-form-btn-2">Cancel</button>
         </div>
     </form>
 </div>
 
 <div class="panel">
-    <h3>News List</h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;gap:1rem;flex-wrap:wrap;">
+        <h3>News List</h3>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <input type="text" id="search-news" placeholder="Search news..." style="padding:0.6rem;border:1px solid #444;border-radius:5px;background:#1a1a1a;color:#fff;flex:1;min-width:200px;">
+            <button type="button" class="btn btn-primary" id="add-news-btn">+ Add News</button>
+        </div>
+    </div>
     <div class="table-wrap">
-    <table>
+    <table id="news-table">
         <thead>
             <tr>
                 <th>ID</th>
@@ -187,8 +199,8 @@ include __DIR__ . '/partials/header.php';
                     <td><?= (int) $row['status'] === 1 ? 'Active' : 'Inactive' ?></td>
                     <td>
                         <div class="action-group">
-                        <a class="btn btn-muted" href="news.php?edit=<?= (int) $row['id'] ?>">Edit</a>
-                        <form method="post" style="display:inline;" onsubmit="return confirm('Delete this news item?');">
+                        <a class="btn btn-muted edit-news-btn" href="news.php?edit=<?= (int) $row['id'] ?>" data-edit-id="<?= (int) $row['id'] ?>">Edit</a>
+                        <form method="post" style="display:inline;" class="delete-news-form" data-news-title="<?= e($row['title_en']) ?>">
                             <input type="hidden" name="csrf_token" value="<?= e(csrfToken()) ?>">
                             <input type="hidden" name="action" value="delete">
                             <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
@@ -202,5 +214,177 @@ include __DIR__ . '/partials/header.php';
     </table>
     </div>
 </div>
+
+<link rel="stylesheet" href="../assets/css/quill.snow.css">
+<link rel="stylesheet" href="../assets/css/quill-better-table.min.css">
+<style>
+.quill-editor {
+    min-height: 320px;
+    margin-bottom: 0.5rem;
+}
+</style>
+<script src="../assets/js/quill.min.js"></script>
+<script src="../assets/js/quill-better-table.min.js"></script>
+<script>
+(() => {
+    const formPanel = document.getElementById('form-panel');
+    const newsForm = document.getElementById('news-form');
+    const addNewsBtn = document.getElementById('add-news-btn');
+    const closeFormBtn = document.getElementById('close-form-btn');
+    const closeFormBtn2 = document.getElementById('close-form-btn-2');
+    const searchInput = document.getElementById('search-news');
+    const newsTable = document.getElementById('news-table');
+    let quillTH, quillEN;
+
+    function initQuillEditors() {
+        if (typeof Quill === 'undefined') return;
+        var BetterTable = window.quillBetterTable || window.QuillBetterTable;
+        if (BetterTable) {
+            Quill.register({'modules/better-table': BetterTable}, true);
+        }
+
+        var editorModules = {
+            toolbar: [
+                [{ 'header': [2, 3, 4, false] }],
+                ['bold', 'italic', 'underline'],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                ['link'],
+                ['clean']
+            ]
+        };
+
+        try {
+            quillTH = new Quill('#quill-editor-th', { theme: 'snow', modules: editorModules });
+        } catch(e) { console.error('QuillTH init error:', e); }
+
+        try {
+            quillEN = new Quill('#quill-editor-en', { theme: 'snow', modules: editorModules });
+        } catch(e) { console.error('QuillEN init error:', e); }
+
+        // Set initial content
+        const descTH = document.getElementById('description_th');
+        if (descTH && descTH.value) {
+            try { quillTH.root.innerHTML = descTH.value; } catch(e) {}
+        }
+        const descEN = document.getElementById('description_en');
+        if (descEN && descEN.value) {
+            try { quillEN.root.innerHTML = descEN.value; } catch(e) {}
+        }
+    }
+
+    function syncQuillEditors() {
+        if (quillTH) {
+            document.getElementById('description_th').value = quillTH.root.innerHTML.trim();
+        }
+        if (quillEN) {
+            document.getElementById('description_en').value = quillEN.root.innerHTML.trim();
+        }
+    }
+
+    function clearQuillEditors() {
+        if (quillTH) quillTH.setContents([]);
+        if (quillEN) quillEN.setContents([]);
+        if (document.getElementById('description_th')) document.getElementById('description_th').value = '';
+        if (document.getElementById('description_en')) document.getElementById('description_en').value = '';
+    }
+
+    // Scripts are loaded at bottom of page, DOM is ready - call directly
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initQuillEditors);
+    } else {
+        initQuillEditors();
+    }
+
+    // Show form when Add News is clicked
+    if (addNewsBtn) {
+        addNewsBtn.addEventListener('click', () => {
+            if (newsForm) {
+                newsForm.reset();
+            }
+            const editIdInput = newsForm?.querySelector('input[name="id"]');
+            if (editIdInput) {
+                editIdInput.value = '0';
+            }
+            clearQuillEditors();
+            if (formPanel) {
+                formPanel.style.display = 'block';
+                formPanel.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
+
+    // Close form
+    if (closeFormBtn) {
+        closeFormBtn.addEventListener('click', () => {
+            if (formPanel) {
+                formPanel.style.display = 'none';
+            }
+        });
+    }
+
+    if (closeFormBtn2) {
+        closeFormBtn2.addEventListener('click', () => {
+            if (formPanel) {
+                formPanel.style.display = 'none';
+            }
+        });
+    }
+
+    // Handle edit links
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('edit-news-btn')) {
+            e.preventDefault();
+            const editId = e.target.dataset.editId;
+            window.location.href = 'news.php?edit=' + editId;
+        }
+    });
+
+    // Confirm news deletion before submit
+    document.addEventListener('submit', (e) => {
+        const deleteForm = e.target.closest('.delete-news-form');
+        if (deleteForm) {
+            const newsTitle = (deleteForm.dataset.newsTitle || '').trim();
+            const message = newsTitle
+                ? 'Delete news "' + newsTitle + '"?'
+                : 'Delete this news item?';
+
+            if (!window.confirm(message)) {
+                e.preventDefault();
+            }
+        }
+    });
+
+    // Sync Quill editors before news form submit
+    if (newsForm) {
+        newsForm.addEventListener('submit', (e) => {
+            syncQuillEditors();
+        });
+    }
+
+    // Search functionality
+    if (searchInput && newsTable) {
+        searchInput.addEventListener('keyup', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = newsTable.querySelectorAll('tbody tr');
+
+            rows.forEach((row) => {
+                const titleCell = row.querySelector('td:nth-child(3)'); // Title EN
+                const dateCell = row.querySelector('td:nth-child(4)'); // Date
+                const idCell = row.querySelector('td:nth-child(1)'); // ID
+
+                const title = titleCell ? titleCell.textContent.toLowerCase() : '';
+                const date = dateCell ? dateCell.textContent.toLowerCase() : '';
+                const id = idCell ? idCell.textContent.toLowerCase() : '';
+
+                if (title.includes(searchTerm) || date.includes(searchTerm) || id.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+})();
+</script>
 
 <?php include __DIR__ . '/partials/footer.php';

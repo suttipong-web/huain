@@ -111,7 +111,16 @@ include __DIR__ . '/includes/site-header.php';
                 <h2><?= e($name) ?></h2>
                 <p>Clear overview, specification details, and quick navigation back to the full catalog.</p>
             </div>
-            <a href="<?= e(productsUrl()) ?>" class="text-link">Back to Products</a>
+            <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <a href="<?= e(productsUrl()) ?>" class="btn-outline-section" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    Find Products
+                </a>
+                <a href="<?= e(productsUrl()) ?>" class="text-link">Back to Products</a>
+            </div>
         </div>
         <div class="row g-4 align-items-start">
             <div class="col-lg-8">

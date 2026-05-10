@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : xampLocalhost
+Source Server         : xammp_localhost
 Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : huain
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2026-05-08 16:23:52
+Date: 2026-05-10 07:32:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -52,14 +52,16 @@ CREATE TABLE `banners` (
   `status` tinyint(4) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of banners
 -- ----------------------------
-INSERT INTO `banners` VALUES ('1', 'Professional AV Solutions', 'โซลูชัน AV ระดับมืออาชีพ', 'High reliability systems for enterprise projects in Thailand.', 'ระบบที่มีความเสถียรสูงสำหรับงานองค์กรในประเทศไทย', '', 'products.php', '1', '1', '2026-05-08 14:33:25');
-INSERT INTO `banners` VALUES ('2', 'HDMI Matrix Flagship Series', 'ซีรีส์ HDMI Matrix รุ่นหลัก', 'Scalable matrix switching for mission critical spaces.', 'รองรับการขยายระบบสำหรับพื้นที่สำคัญ', '', 'product.php?slug=hdmi-matrix', '2', '1', '2026-05-08 14:33:25');
-INSERT INTO `banners` VALUES ('3', 'HUAIN Power Squeezer', 'HUAIN Power Squeezer', 'Smart power and signal optimization platform.', 'แพลตฟอร์มจัดการพลังงานและสัญญาณอัจฉริยะ', '', 'product.php?slug=huain-power-squeezer', '3', '1', '2026-05-08 14:33:25');
+INSERT INTO `banners` VALUES ('4', '', '', '', '', '20260509010355_0cf2f26b0119.webp', '', '0', '1', '2026-05-09 01:03:55');
+INSERT INTO `banners` VALUES ('5', '', '', '', '', '20260509010403_a28d6eae8eff.webp', '', '0', '1', '2026-05-09 01:04:03');
+INSERT INTO `banners` VALUES ('6', '', '', '', '', '20260509010409_459869b109b9.webp', '', '0', '1', '2026-05-09 01:04:09');
+INSERT INTO `banners` VALUES ('7', '', '', '', '', '20260509010413_39369acb716d.webp', '', '0', '1', '2026-05-09 01:04:13');
+INSERT INTO `banners` VALUES ('8', '', '', '', '', '20260509010422_e15bc0a87dc6.webp', '', '0', '1', '2026-05-09 01:04:22');
 
 -- ----------------------------
 -- Table structure for contact_information
@@ -81,7 +83,7 @@ CREATE TABLE `contact_information` (
 -- ----------------------------
 -- Records of contact_information
 -- ----------------------------
-INSERT INTO `contact_information` VALUES ('1', 'HUAIN Thailand', 'Bangkok, Thailand', '+66 2 000 0000', 'sales@huain-th.com', '@huainth', '', 'https://facebook.com', 'https://youtube.com');
+INSERT INTO `contact_information` VALUES ('1', 'HUAIN Thailand', '', '+66 2 000 0000', 'sales@huain-th.com', '@huainth', '', '', '');
 
 -- ----------------------------
 -- Table structure for contact_messages
@@ -126,7 +128,7 @@ CREATE TABLE `news` (
 -- ----------------------------
 -- Records of news
 -- ----------------------------
-INSERT INTO `news` VALUES ('1', 'โครงการห้องประชุมองค์กร กรุงเทพฯ', 'Bangkok Enterprise Conference Room', 'bangkok-enterprise-conference-room', 'ติดตั้งระบบควบคุมสัญญาณ HDMI Matrix และระบบเสียงครบวงจร', 'Installed complete HDMI matrix and integrated audio visual workflow.', 'โครงการออกแบบและติดตั้งระบบ AV สำหรับห้องประชุมหลักขององค์กรในกรุงเทพฯ พร้อมระบบควบคุมส่วนกลาง.', 'Designed and deployed complete AV solution for the main conference floor with centralized control.', '', 'Bangkok Enterprise Conference Room', 'HUAIN project showcase in Thailand.', '1', '2026-05-08 14:33:25');
+INSERT INTO `news` VALUES ('1', 'โครงการห้องประชุมองค์กร กรุงเทพฯ', 'Bangkok Enterprise Conference Room', 'bangkok-enterprise-conference-room', 'ติดตั้งระบบควบคุมสัญญาณ HDMI Matrix และระบบเสียงครบวงจร', 'Installed complete HDMI matrix and integrated audio visual workflow.', '', '', '', 'Bangkok Enterprise Conference Room', 'HUAIN project showcase in Thailand.', '1', '2026-05-08 14:33:25');
 INSERT INTO `news` VALUES ('2', 'โครงการ Video Wall โรงแรม', 'Hotel Video Wall Deployment', 'hotel-video-wall-deployment', 'ยกระดับพื้นที่ lobby ด้วย video wall ความละเอียดสูง', 'Premium high-resolution video wall for hotel lobby engagement.', 'ติดตั้งระบบ video wall พร้อม player และ scheduling สำหรับงาน hospitality.', 'Installed a full video wall stack with content scheduling for hospitality operation.', '', 'Hotel Video Wall Deployment', 'Hotel project and deployment result.', '1', '2026-05-08 14:33:25');
 INSERT INTO `news` VALUES ('3', 'โครงการ Smart Classroom', 'Smart Classroom Upgrade', 'smart-classroom-upgrade', 'ระบบการเรียนรู้แบบ interactive สำหรับสถาบันการศึกษา', 'Interactive learning AV environment for education institutions.', 'ติดตั้งระบบแสดงผลและจัดการสัญญาณในห้องเรียนอัจฉริยะเพื่อรองรับการเรียนการสอนรูปแบบใหม่.', 'Installed display and signal management systems for modern smart learning classrooms.', '', 'Smart Classroom Upgrade', 'Education AV case study by HUAIN Thailand.', '1', '2026-05-08 14:33:25');
 
@@ -163,12 +165,9 @@ CREATE TABLE `products` (
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES ('1', '1', 'HDMI Matrix', 'HDMI Matrix', 'hdmi-matrix', 'ระบบสวิตช์สัญญาณ HDMI สำหรับงานประชุมและงานองค์กร', 'Enterprise HDMI matrix switching platform for meetings and control environments.', 'รองรับการจัดการสัญญาณหลายอินพุตและหลายเอาต์พุต พร้อมการควบคุมผ่าน LAN และ RS232.', 'Supports multi-input multi-output signal routing with LAN and RS232 control integration.', '4K60, HDCP compliant, EDID management, IR pass-through.', '4K60, HDCP compliant, EDID management, IR pass-through.', '98000.00', '', 'HDMIMatrixcatalog.pdf', 'HDMIMatrixcatalog.pdf', '1', '1', 'HDMI Matrix | HUAIN Thailand', 'Professional HDMI Matrix catalog and product details.', '2026-05-08 14:33:25');
-INSERT INTO `products` VALUES ('2', '4', 'HUAIN Power Squeezer', 'HUAIN Power Squeezer', 'huain-power-squeezer', 'ระบบจัดการพลังงานและสัญญาณอัจฉริยะ', 'Intelligent power and signal optimization for critical AV racks.', 'ออกแบบเพื่อช่วยลดการใช้พลังงานและเสริมความเสถียรของระบบ AV.', 'Designed to reduce energy consumption and improve AV infrastructure stability.', 'Remote scheduling, surge protection, power analytics.', 'Remote scheduling, surge protection, power analytics.', '125000.00', '', '', '', '1', '1', 'Power Squeezer | HUAIN Thailand', 'Power optimization product for AV infrastructure.', '2026-05-08 14:33:25');
-INSERT INTO `products` VALUES ('3', '2', 'AV Over IP', 'AV Over IP', 'av-over-ip', 'ระบบกระจายสัญญาณภาพและเสียงผ่านเครือข่าย', 'Scalable AV distribution over managed network infrastructure.', 'ขยายระบบได้ง่ายและรองรับงานหลายจุดแสดงผล.', 'Highly scalable architecture for enterprise multi-display projects.', '1Gb/10Gb support, multicast-ready, central management.', '1Gb/10Gb support, multicast-ready, central management.', '145000.00', '', '', '', '1', '1', 'AV Over IP | HUAIN Thailand', 'Enterprise AV over IP product family.', '2026-05-08 14:33:25');
-INSERT INTO `products` VALUES ('4', '3', 'HDMI Extender', 'HDMI Extender', 'hdmi-extender', 'ส่งสัญญาณ HDMI ระยะไกลแบบเสถียร', 'Long-distance HDMI signal extension with stable quality.', 'เหมาะสำหรับห้องประชุมและงานติดตั้งที่ต้องเดินสายไกล.', 'Ideal for meeting room and long-cable AV installation scenarios.', 'Up to 100m extension, low latency transport.', 'Up to 100m extension, low latency transport.', '39000.00', '', '', '', '0', '1', 'HDMI Extender | HUAIN Thailand', 'Reliable HDMI extension solutions.', '2026-05-08 14:33:25');
-INSERT INTO `products` VALUES ('5', '4', 'Video Wall Controller', 'Video Wall Controller', 'video-wall-controller', 'ควบคุมผนังภาพหลายจอสำหรับศูนย์ควบคุม', 'Multi-display video wall control system for command center operation.', 'รองรับการจัด layout และ preset สำหรับงานเฝ้าระวังแบบเรียลไทม์.', 'Supports layout presets and real-time monitoring workflows.', 'Flexible layouts, low-latency output, failover ready.', 'Flexible layouts, low-latency output, failover ready.', '210000.00', '', '', '', '0', '1', 'Video Wall Controller | HUAIN Thailand', 'Video wall management platform.', '2026-05-08 14:33:25');
-INSERT INTO `products` VALUES ('6', '1', 'HDMI Splitter', 'HDMI Splitter', 'hdmi-splitter', 'กระจายสัญญาณ HDMI หลายจอ', 'Professional HDMI signal distribution to multiple displays.', 'เหมาะสำหรับงานโชว์รูม ห้องประชุม และ signage.', 'Ideal for showrooms, meeting spaces, and digital signage systems.', '1x4 / 1x8 output options, signal equalization, reliable sync.', '1x4 / 1x8 output options, signal equalization, reliable sync.', '22000.00', '', '', '', '0', '1', 'HDMI Splitter | HUAIN Thailand', 'Signal distribution products from HUAIN.', '2026-05-08 14:33:25');
+INSERT INTO `products` VALUES ('1', '1', 'HDMI Matrix', 'HDMI Matrix', 'hdmi-matrix', 'ระบบสวิตช์สัญญาณ HDMI สำหรับงานประชุมและงานองค์กร', 'HDMI Matrix Seamless Switching 4×4 Channels 8×8 Channels 16×16 Channels HY-HD044 HY-HD088 HY-HD1616', 'Adopting programmable logic display circuit, input and output signals can be switched interactively at will;\r\n\r\nSupport 4/8/16-channel high-definition signal source input, 4/8/16-channel high-definition signal source output, using HDMI female interface;\r\n\r\nWith 4 independent audio outputs, using 3.5 analog audio output;\r\n\r\nInput and output support HDMI1.4, the highest resolution is 3840x2160@30Hz;\r\n\r\nEquipped with 2.0\" LCD display, support real-time display of information status;\r\n\r\nSupport audio embedding and de-embedding; support changing output resolution; support power-off memory function; support continuous hot plugging of HDMI interface;\r\n\r\nWith 1 RS232 input, 1 RS232 output, 1 TCP/IP; 1 power switch;\r\n\r\nSupport APP, IR, RS232, TCP/IP control, key switching control;\r\n\r\nUnique blue light key display; support EDID management;\r\n\r\nInput and output color space supports RGB4:4:4, YCbCr4:4:4, YCbCr4:2:2, etc.\r\n\r\nแปลให้ที', 'Adopting programmable logic display circuit, input and output signals can be switched interactively at will;\r\n\r\nSupport 4/8/16-channel high-definition signal source input, 4/8/16-channel high-definition signal source output, using HDMI female interface;\r\n\r\nWith 4 independent audio outputs, using 3.5 analog audio output;\r\n\r\nInput and output support HDMI1.4, the highest resolution is 3840x2160@30Hz;\r\n\r\nEquipped with 2.0\" LCD display, support real-time display of information status;\r\n\r\nSupport audio embedding and de-embedding; support changing output resolution; support power-off memory function; support continuous hot plugging of HDMI interface;\r\n\r\nWith 1 RS232 input, 1 RS232 output, 1 TCP/IP; 1 power switch;\r\n\r\nSupport APP, IR, RS232, TCP/IP control, key switching control;\r\n\r\nUnique blue light key display; support EDID management;\r\n\r\nInput and output color space supports RGB4:4:4, YCbCr4:4:4, YCbCr4:2:2, etc.', 'Support 4/8/16-channel high-definition signal source input, 4/8/16-channel high-definition signal source output, using HDMI female interface', 'Support 4/8/16-channel high-definition signal source input, 4/8/16-channel high-definition signal source output, using HDMI female interface', '98000.00', '20260509173517_c474b90f7bc9.webp', 'HDMIMatrixcatalog.pdf', '20260509174716_9564e6014e24.pdf', '1', '1', 'HDMI Matrix | HUAIN Thailand', 'Professional HDMI Matrix catalog and product details.', '2026-05-08 14:33:25');
+INSERT INTO `products` VALUES ('2', '4', 'HUAIN Power Squeezer', 'HUAIN Power Squeezer', 'huain-power-squeezer', 'ระบบจัดการพลังงานและสัญญาณอัจฉริยะ', 'Intelligent power and signal optimization for critical AV racks.', 'ฟังก์ชันและคุณสมบัติ\r\nรองรับเอาต์พุตจ่ายไฟกำลังสูงแบบอิสระ 8 ช่อง โดยรองรับกำลังไฟสูงสุด 2500W ต่อช่อง\r\nมาพร้อมหน้าจอ LCD สี ขนาด 2.0 นิ้ว รองรับการแสดงผลแรงดันไฟฟ้า วันที่ เวลา และสถานะการสลับช่องสัญญาณแบบเรียลไทม์\r\nรองรับฟังก์ชันตั้งเวลาเปิด-ปิด ด้วยชิปนาฬิกาในตัว สามารถตั้งค่าตามวันและเวลาได้โดยไม่ต้องควบคุมด้วยตนเอง ช่วยให้การจัดการอุปกรณ์สะดวกยิ่งขึ้น\r\nรองรับเอาต์พุต 8 ช่อง พร้อมตั้งค่าหน่วงเวลาแต่ละช่องได้อย่างอิสระ (0–999 วินาที)\r\nรองรับการบันทึกและเรียกคืนชุดคำสั่งการทำงาน (Scene) ได้ 10 ชุด ช่วยให้จัดการระบบได้ง่ายและสะดวก\r\nมีระบบตรวจจับแรงดันไฟต่ำและแรงดันไฟเกิน พร้อมระบบแจ้งเตือน เพื่อป้องกันอุปกรณ์อย่างมีประสิทธิภาพ\r\nรองรับการเชื่อมต่อและควบคุมอุปกรณ์หลายตัวร่วมกัน (Cascading) รวมถึงรองรับระบบควบคุมกลางภายนอก\r\nรองรับการควบคุมจากศูนย์กลางระยะไกล โดยแต่ละอุปกรณ์สามารถกำหนดและตรวจสอบ Device ID ได้\r\nรองรับฟังก์ชันล็อกแผงควบคุม (Panel Lock)\r\nรองรับการควบคุมทั้งแบบ Manual, Central Control และผ่านซอฟต์แวร์คอมพิวเตอร์ พร้อมสั่งเปิด/ปิดแต่ละช่องแบบลำดับได้ด้วยปุ่มเดียว\r\nใช้เต้ารับไฟฟ้าแบบมัลติฟังก์ชัน รองรับปลั๊กไฟหลายมาตรฐาน ทั้งแบบสากล อเมริกา และยุโรป', 'Functions and Parameters\r\nFeatures 8 independent high-power controlled power outputs, with a maximum power of 2500W per channel;\r\nEquipped with a 2.0-inch color LCD display, supporting real-time display of current voltage, date and time, and channel switch status;\r\nFeatures a timer switch function with a built-in clock chip, allowing for setting based on date and time without manual operation, simplifying equipment management;\r\nSupports 8 channel outputs, with freely configurable delay times for each channel (0–999 seconds);\r\nFeatures 10 sets of equipment switch scene data storage and retrieval, making scene management simple and convenient;\r\nIncludes undervoltage and overvoltage detection and alarm functions, providing reliable protection for the equipment;\r\nSupports cascading control of multiple devices and external central control equipment;\r\nEnables remote centralized control, with each device having its own device ID detection and setting;\r\nSupports panel lock;\r\nFeatures simultaneous manual, central control, or computer software control, with one-button switch on/off control of channels to achieve sequential operation;\r\nEmploys a multi-functional power socket, compatible with various power plugs including international, American, and European standards;', 'ข้อมูลทางเทคนิค\r\nแหล่งจ่ายไฟ: AC100V~240V ความถี่ 50/60Hz\r\nหน้าจอแสดงผล: จอ LCD สี ขนาด 2.0 นิ้ว\r\nจำนวนรีเลย์แบบ Normally Open (NO): 2 ชุด\r\nกำลังโหลดต่อช่อง: 2500 วัตต์\r\nวิธีการเชื่อมต่อพ่วง (Cascade): ผ่าน Terminal Block\r\nไฟแสดงสถานะ: ไฟแสดงสถานะพลังงานแยกอิสระ\r\nพอร์ตควบคุมกลาง: RS-232 แบบ Female Port\r\nสี: ดำ\r\nขนาด: 483 × 204 × 45 มม.\r\nรูปแบบการติดตั้ง: รองรับการติดตั้งบนตู้ Rack มาตรฐานขนาด 19 นิ้ว', 'Technical Parameters\r\nOperating Power Supply: AC100V~240V 50/60Hz\r\nDisplay: 2.0-inch color LCD display\r\nNumber of Normally Open Relays: 2\r\nSingle-Channel Load: 2500W\r\nCascading Method: Terminal Block\r\nIndicator Lights: Independent Power Indicator\r\nCentral Control Interface: RS-232 Female Port\r\nColor: Black\r\nDimensions: 483 × 204 × 45 mm\r\nInstallation Method: Suitable for 19-inch standard rack mounting', '125000.00', '20260509181927_2df32300839a.jpg', '', '20260509181645_e57197c025a4.pdf', '1', '1', 'Power Squeezer | HUAIN Thailand', 'Power optimization product for AV infrastructure.', '2026-05-08 14:33:25');
+INSERT INTO `products` VALUES ('4', '3', 'HDMI Switcher', 'HDMI Switcher', 'hdmi-extender', 'รองรับสัญญาณภาพความละเอียดสูงแบบอินพุต 4 / 8 / 16 ช่อง และเอาต์พุต 4 / 8 / 16 ช่อง ผ่านพอร์ต HDMI แบบ Female', 'HUAIN 3 in 1 out / 5 in 1 out HDMI Switcher HY-HDMI0301 HY-HDMI0501', '', '', 'Up to 100m extension, low latency transport.', 'Up to 100m extension, low latency transport.', '0.00', '20260509183542_bcdce1f95bd8.webp', '', '', '1', '1', 'HDMI Extender | HUAIN Thailand', 'Reliable HDMI extension solutions.', '2026-05-08 14:33:25');
 
 -- ----------------------------
 -- Table structure for product_categories
@@ -203,8 +202,15 @@ CREATE TABLE `product_images` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of product_images
 -- ----------------------------
+INSERT INTO `product_images` VALUES ('1', '1', '20260509173517_afe5ea3e6f13.webp', '1');
+INSERT INTO `product_images` VALUES ('2', '1', '20260509173517_0e6a08c2852b.webp', '2');
+INSERT INTO `product_images` VALUES ('3', '1', '20260509174718_ce23d9678794.webp', '3');
+INSERT INTO `product_images` VALUES ('4', '2', '20260509181645_35afcb0ce857.jpg', '1');
+INSERT INTO `product_images` VALUES ('5', '2', '20260509181645_3b190cc8fb30.jpg', '2');
+INSERT INTO `product_images` VALUES ('6', '4', '20260509183554_d66eb2855b68.webp', '1');
+INSERT INTO `product_images` VALUES ('7', '4', '20260509183554_6c2a74ea16d9.webp', '2');
